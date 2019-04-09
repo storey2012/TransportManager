@@ -11,6 +11,8 @@ namespace TransManager
 {
     public partial class frmDriverAdd : Form
     {
+        public static frmDriverAdd mInst;
+
         private string msgBoxTitle;
 
         public frmDriverAdd()
@@ -18,6 +20,35 @@ namespace TransManager
             InitializeComponent();
             msgBoxTitle = this.Name;
         }
+
+        // Create a public static property that returns the state of the instance
+        public static frmDriverAdd CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+
+        // Create a public static property that will create an instance of the form and return it
+        public static frmDriverAdd CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmDriverAdd();
+                return mInst;
+            }
+        }
+
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
+
+        }
+
 
         private void LoadTitleCombo()
         {

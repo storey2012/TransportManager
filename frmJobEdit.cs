@@ -12,16 +12,39 @@ namespace TransManager
 {
     public partial class frmJobEdit : Form
     {
+        private static frmJobEdit mInst;
+
         Job job;
         Client client;
         Combo objCombo = new Combo();
-        Boolean bApptChange = false;
+        
         DateTime dtAppt;
 
-        public frmJobEdit()
+        private frmJobEdit()
         {
             InitializeComponent();
         }
+
+        // Create a public static property that returns the state of the instance
+        public static frmJobEdit CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+
+        // Create a public static property that will create an instance of the form and return it
+        public static frmJobEdit CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmJobEdit();
+                return mInst;
+            }
+        }
+
 
         private void frmJobEdit_Load(object sender, EventArgs e)
         {
@@ -366,13 +389,13 @@ namespace TransManager
 
         private void cboAppt1Hour_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bApptChange = true;
+            
             ValidateAppointmentTime(cboAppt1Hour, cboAppt1Minute, cboPickUp1Hour, cboPickUp1Minute);
         }
 
         private void cboAppt1Minute_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bApptChange = false;
+            
             ValidateAppointmentTime(cboAppt1Hour, cboAppt1Minute, cboPickUp1Hour, cboPickUp1Minute);
         }
 

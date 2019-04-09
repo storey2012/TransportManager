@@ -204,9 +204,9 @@
             this.radByClient.Location = new System.Drawing.Point(207, 15);
             this.radByClient.Margin = new System.Windows.Forms.Padding(2);
             this.radByClient.Name = "radByClient";
-            this.radByClient.Size = new System.Drawing.Size(66, 17);
+            this.radByClient.Size = new System.Drawing.Size(51, 17);
             this.radByClient.TabIndex = 2;
-            this.radByClient.Text = "By Client";
+            this.radByClient.Text = "Client";
             this.radByClient.UseVisualStyleBackColor = true;
             this.radByClient.CheckedChanged += new System.EventHandler(this.radByClient_CheckedChanged);
             // 
@@ -216,9 +216,9 @@
             this.radByDriver.Location = new System.Drawing.Point(115, 15);
             this.radByDriver.Margin = new System.Windows.Forms.Padding(2);
             this.radByDriver.Name = "radByDriver";
-            this.radByDriver.Size = new System.Drawing.Size(68, 17);
+            this.radByDriver.Size = new System.Drawing.Size(53, 17);
             this.radByDriver.TabIndex = 1;
-            this.radByDriver.Text = "By Driver";
+            this.radByDriver.Text = "Driver";
             this.radByDriver.UseVisualStyleBackColor = true;
             this.radByDriver.CheckedChanged += new System.EventHandler(this.radByDriver_CheckedChanged);
             // 
@@ -229,10 +229,10 @@
             this.radByDate.Location = new System.Drawing.Point(25, 15);
             this.radByDate.Margin = new System.Windows.Forms.Padding(2);
             this.radByDate.Name = "radByDate";
-            this.radByDate.Size = new System.Drawing.Size(63, 17);
+            this.radByDate.Size = new System.Drawing.Size(48, 17);
             this.radByDate.TabIndex = 0;
             this.radByDate.TabStop = true;
-            this.radByDate.Text = "By Date";
+            this.radByDate.Text = "Date";
             this.radByDate.UseVisualStyleBackColor = true;
             this.radByDate.CheckedChanged += new System.EventHandler(this.radByDate_CheckedChanged);
             // 

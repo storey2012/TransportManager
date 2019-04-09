@@ -61,12 +61,12 @@ namespace TransManager
             }
 
             cmd.Connection = sqlConnection1;
-            Log.WriteCommand(cmd);
             if(dt != null)
             {
                 cmd.Parameters.Add(new OleDbParameter("@var1", dt));
             }
 
+            Log.WriteCommand(cmd);
 
             dr = cmd.ExecuteReader();
 

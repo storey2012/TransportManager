@@ -16,6 +16,8 @@ namespace TransManager
 {
     public partial class frmClientEdit : Form
     {
+        public static frmClientEdit mInst;
+
         Clients collClient;
 
         Boolean bDirty = false;
@@ -33,7 +35,34 @@ namespace TransManager
             
         }
 
-        
+        // Create a public static property that returns the state of the instance
+        public static frmClientEdit CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+
+        // Create a public static property that will create an instance of the form and return it
+        public static frmClientEdit CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmClientEdit();
+                return mInst;
+            }
+        }
+
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
+
+        }
+
 
         private void Client_Load(object sender, EventArgs e)
         {

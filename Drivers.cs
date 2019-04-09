@@ -127,6 +127,7 @@ namespace TransManager
                 x.IsClientExcluded = dr.GetInt32(dr.GetOrdinal("IsClientExcluded")) == 0 ? false : true;
                 x.OtherJob = dr.GetInt32(dr.GetOrdinal("HasJob"));
                 x.InsuranceExpiry = dr.GetDateTime(dr.GetOrdinal("InsuranceExpiry"));
+                x.IsOnHoliday = dr.GetInt32(dr.GetOrdinal("IsOnHoliday")) == 0 ? false : true;
 
                 x.JobSessionCount = dr.GetInt32(dr.GetOrdinal("SUCount"));
 

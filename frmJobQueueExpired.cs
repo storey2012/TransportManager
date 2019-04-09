@@ -12,6 +12,8 @@ namespace TransManager
 {
     public partial class frmJobQueueExpired : Form
     {
+        private static frmJobQueueExpired mInst;
+
         Boolean bDirty = false;
         IEnumerable<JobContact> queryCurrent;
         Drivers drivers = new Drivers();
@@ -26,6 +28,33 @@ namespace TransManager
         public frmJobQueueExpired()
         {
             InitializeComponent();
+        }
+
+        // Create a public static property that returns the state of the instance
+        public static frmJobQueueExpired CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+        // Create a public static property that will create an instance of the form and return it
+        public static frmJobQueueExpired CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmJobQueueExpired();
+                return mInst;
+            }
+        }
+
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
+
         }
 
         private void splitContainer3_Panel2_Paint(object sender, PaintEventArgs e)
@@ -98,7 +127,7 @@ namespace TransManager
 
             if (radByClient.Checked)
             {
-                foreach (Job job in jobs.OrderBy(s => s.ClientName))
+                foreach (Job job in jobs.OrderBy(s => s.ClientSurname))
                 {
                     String clientName;
 

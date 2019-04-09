@@ -10,6 +10,7 @@ namespace TransManager
         User user = new User();
         Utils utils = new Utils();
         frmLogin frmlogin;
+        
 
         public frmSwitchboard()
         {
@@ -23,7 +24,7 @@ namespace TransManager
             client.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(client);
             client.Show();
-            this.Hide();
+            //this.Hide();
         }
 
 
@@ -62,42 +63,64 @@ namespace TransManager
 
         private void btnEditClient_Click(object sender, EventArgs e)
         {
-            frmClientEdit clientEdit = new frmClientEdit();
-            clientEdit.FormClosed += delegate { this.Show(); };
-            clientEdit.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(clientEdit);
-            clientEdit.Show();
-            this.Hide();
+            if (frmClientEdit.CheckInst == null)
+            {
+                frmClientEdit.CreateInst.Show();
+                frmClientEdit.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmClientEdit.CreateInst);
+            }
+            else
+            {
+                frmClientEdit.CheckInst.WindowState = FormWindowState.Normal;
+                frmClientEdit.CheckInst.Focus();
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            frmClientAdd clientAdd = new frmClientAdd();
-            clientAdd.FormClosed += delegate { this.Show(); };
-            clientAdd.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(clientAdd);
-            clientAdd.Show();
-            this.Hide();
+            if (frmClientAdd.CheckInst == null)
+            {
+                frmClientAdd.CreateInst.Show();
+                frmClientAdd.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmClientAdd.CreateInst);
+            }
+            else
+            {
+                frmClientAdd.CheckInst.WindowState = FormWindowState.Normal;
+                frmClientAdd.CheckInst.Focus();
+            }
         }
 
         private void btnDriverEdit_Click(object sender, EventArgs e)
         {
-            frmDriverEdit driverEdit = new frmDriverEdit(user);
-            driverEdit.FormClosed += delegate { this.Show(); };
-            driverEdit.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(driverEdit);
-            driverEdit.Show();
-            this.Hide();
+            if (frmDriverEdit.CheckInst == null)
+            {
+                frmDriverEdit.CreateInst(user).Show();
+                frmDriverEdit.CreateInst(user).StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmDriverEdit.CreateInst(user));
+            }
+            else
+            {
+                frmDriverEdit.CheckInst.WindowState = FormWindowState.Normal;
+                frmDriverEdit.CheckInst.Focus();
+            }
+
         }
 
         private void btnDriverAdd_Click(object sender, EventArgs e)
         {
-            frmDriverAdd driverAdd = new frmDriverAdd();
-            driverAdd.FormClosed += delegate { this.Show(); };
-            driverAdd.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(driverAdd);
-            driverAdd.Show();
-            this.Hide();
+            if (frmDriverAdd.CheckInst == null)
+            {
+                frmDriverAdd.CreateInst.Show();
+                frmDriverAdd.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmDriverAdd.CreateInst);
+            }
+            else
+            {
+                frmDriverAdd.CheckInst.WindowState = FormWindowState.Normal;
+                frmDriverAdd.CheckInst.Focus();
+            }
+
         }
 
         private void btnTitles_Click(object sender, EventArgs e)
@@ -108,7 +131,7 @@ namespace TransManager
             frmMaint.Show();
             Sizer.ResizeForm(frmMaint);
             frmMaint.Text = "Titles";
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnCarMake_Click(object sender, EventArgs e)
@@ -118,7 +141,7 @@ namespace TransManager
             frmMaint.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmMaint);
             frmMaint.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnCarType_Click(object sender, EventArgs e)
@@ -128,7 +151,7 @@ namespace TransManager
             frmMaint.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmMaint);
             frmMaint.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -138,7 +161,7 @@ namespace TransManager
             frmMaint.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmMaint);
             frmMaint.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnDestAdd_Click(object sender, EventArgs e)
@@ -148,7 +171,7 @@ namespace TransManager
             frmDest.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmDest);
             frmDest.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnDestUpdate_Click(object sender, EventArgs e)
@@ -158,7 +181,7 @@ namespace TransManager
             frmDest.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmDest);
             frmDest.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnDestDelete_Click(object sender, EventArgs e)
@@ -168,7 +191,7 @@ namespace TransManager
             frmDest.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmDest);
             frmDest.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnDestinationCategory_Click(object sender, EventArgs e)
@@ -178,27 +201,40 @@ namespace TransManager
             frmMaint.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmMaint);
             frmMaint.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnJobAdd_Click(object sender, EventArgs e)
         {
-            frmJobAdd frmJobAdd = new frmJobAdd();
-            frmJobAdd.FormClosed += delegate { this.Show(); PopulateJobCount(); };
-            frmJobAdd.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(frmJobAdd);
-            frmJobAdd.Show();
-            this.Hide();
+            //frmJobAdd frmJobAdd = new frmJobAdd();
+            //frmJobAdd.FormClosed += delegate { this.Show(); PopulateJobCount(); };
+            if (frmJobAdd.CheckInst == null)
+            {
+                frmJobAdd.CreateInst.Show();
+                frmJobAdd.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmJobAdd.CreateInst);
+            }
+            else {
+                frmJobAdd.CheckInst.WindowState = FormWindowState.Normal;
+                frmJobAdd.CheckInst.Focus();
+            }
+            
+            ////this.Hide();
         }
 
         private void btnJobEdit_Click(object sender, EventArgs e)
         {
-            frmJobEdit frmJobEdit = new frmJobEdit();
-            frmJobEdit.FormClosed += delegate { this.Show(); PopulateJobCount(); };
-            frmJobEdit.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(frmJobEdit);
-            frmJobEdit.Show();
-            this.Hide();
+            if(frmJobEdit.CheckInst == null)
+            {
+                frmJobEdit.CreateInst.Show();
+                frmJobEdit.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmJobEdit.CreateInst);
+            }
+            else {
+                frmJobEdit.CheckInst.WindowState = FormWindowState.Normal;
+                frmJobEdit.CheckInst.Focus();
+            }
+
         }
 
         private void btnJobStatus_Click(object sender, EventArgs e)
@@ -208,27 +244,39 @@ namespace TransManager
             frmMaint.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmMaint);
             frmMaint.Show();
-            this.Hide();
+            //this.Hide();
         }
 
         private void btnJobQueue_Click(object sender, EventArgs e)
         {
-            frmJobQueue frmjobqueue = new frmJobQueue();
-            frmjobqueue.FormClosed += delegate { this.Show(); PopulateJobCount(); };
-            frmjobqueue.StartPosition = FormStartPosition.Manual;
-            frmjobqueue.Show();
-            Sizer.ResizeForm(frmjobqueue);
-            this.Hide();
+            if (frmJobQueue.CheckInst == null)
+            {
+                frmJobQueue.CreateInst.Show();
+                frmJobQueue.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmJobQueue.CreateInst);
+                //frmJobQueue.CheckInst.LostFocus += delegate { frmJobQueue.CheckInst.WindowState = FormWindowState.Minimized; this.Show(); PopulateJobCount(); };
+            }
+            else
+            {
+                frmJobQueue.CheckInst.WindowState = FormWindowState.Normal;
+                frmJobQueue.CheckInst.Focus();
+            }
         }
 
         private void btnJobsExpired_Click(object sender, EventArgs e)
         {
-            frmJobQueueExpired frmjobqueueexpired = new frmJobQueueExpired();
-            frmjobqueueexpired.FormClosed += delegate { this.Show(); PopulateJobCount(); };
-            frmjobqueueexpired.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(frmjobqueueexpired);
-            frmjobqueueexpired.Show();
-            this.Hide();
+            if (frmJobQueueExpired.CheckInst == null)
+            {
+                frmJobQueueExpired.CreateInst.Show();
+                frmJobQueueExpired.CreateInst.StartPosition = FormStartPosition.Manual;
+                Sizer.ResizeForm(frmJobQueueExpired.CreateInst);
+                //frmJobQueueExpired.CheckInst.LostFocus += delegate { frmJobQueueExpired.CheckInst.WindowState = FormWindowState.Minimized; this.Show(); PopulateJobCount(); };
+            }
+            else
+            {
+                frmJobQueueExpired.CheckInst.WindowState = FormWindowState.Normal;
+                frmJobQueueExpired.CheckInst.Focus();
+            }
         }
 
         private void UpdateCompletedJobs() {
@@ -345,22 +393,21 @@ namespace TransManager
 
         private void btnLicenceExpiry_Click(object sender, EventArgs e)
         {
-            frmLicenceExpiry frmlicenceexpiry = new frmLicenceExpiry(Attribute.ExpiryType.licence);
-            frmlicenceexpiry.FormClosed += delegate { this.Show(); };
-            frmlicenceexpiry.StartPosition = FormStartPosition.Manual;
-            Sizer.ResizeForm(frmlicenceexpiry);
-            frmlicenceexpiry.Show();
-            this.Hide();
-        }
-
-        private void btnInsuranceExpiry_Click(object sender, EventArgs e)
-        {
             frmLicenceExpiry frmlicenceexpiry = new frmLicenceExpiry(Attribute.ExpiryType.insurance);
             frmlicenceexpiry.FormClosed += delegate { this.Show(); };
             frmlicenceexpiry.StartPosition = FormStartPosition.Manual;
             Sizer.ResizeForm(frmlicenceexpiry);
             frmlicenceexpiry.Show();
-            this.Hide();
+        }
+
+        private void btnInsuranceExpiry_Click(object sender, EventArgs e)
+        {
+            frmLicenceExpiry frminsuranceexpiry = new frmLicenceExpiry(Attribute.ExpiryType.insurance);
+            frminsuranceexpiry.FormClosed += delegate { this.Show(); };
+            frminsuranceexpiry.StartPosition = FormStartPosition.Manual;
+            Sizer.ResizeForm(frminsuranceexpiry);
+            frminsuranceexpiry.Show();
+            //this.Hide();
         }
 
         private void rtbJobSummary_TextChanged(object sender, EventArgs e)

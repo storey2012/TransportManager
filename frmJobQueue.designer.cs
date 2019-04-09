@@ -269,6 +269,7 @@
             this.imgIcons.Images.SetKeyName(15, "d_blue.ico");
             this.imgIcons.Images.SetKeyName(16, "e_red.ico");
             this.imgIcons.Images.SetKeyName(17, "o_blue.ico");
+            this.imgIcons.Images.SetKeyName(18, "suitcase.ico");
             // 
             // rtbOpInstructions
             // 
@@ -319,7 +320,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer2.Size = new System.Drawing.Size(582, 513);
-            this.splitContainer2.SplitterDistance = 25;
+            this.splitContainer2.SplitterDistance = 484;
             this.splitContainer2.TabIndex = 4;
             // 
             // lblAllocateDrivers
@@ -427,7 +428,7 @@
             this.splitContainer3.Panel2.Controls.Add(this.lblCClientContact);
             this.splitContainer3.Panel2.Controls.Add(this.rtbClientContactNotes);
             this.splitContainer3.Panel2.Controls.Add(this.gbClientPhone);
-            this.splitContainer3.Size = new System.Drawing.Size(582, 484);
+            this.splitContainer3.Size = new System.Drawing.Size(582, 25);
             this.splitContainer3.SplitterDistance = 553;
             this.splitContainer3.SplitterWidth = 3;
             this.splitContainer3.TabIndex = 1;
@@ -2644,9 +2645,6 @@
         private System.Windows.Forms.Button btnJobList;
         private System.Windows.Forms.SplitContainer scTreeView;
         private System.Windows.Forms.TreeView tvJobs;
-        private System.Windows.Forms.GroupBox gbClientDetails;
-        private System.Windows.Forms.RichTextBox rtbLClientNotes;
-        private System.Windows.Forms.CheckedListBox clbCLAttributes;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -2777,10 +2775,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.RichTextBox rtbClientContactDetails;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label2;
@@ -2816,5 +2810,12 @@
         private System.Windows.Forms.CheckBox chkSession3;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lblDriverNotes;
+        private System.Windows.Forms.GroupBox gbClientDetails;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.RichTextBox rtbClientContactDetails;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.RichTextBox rtbLClientNotes;
+        private System.Windows.Forms.CheckedListBox clbCLAttributes;
     }
 }

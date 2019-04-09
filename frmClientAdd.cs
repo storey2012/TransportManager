@@ -11,6 +11,8 @@ namespace TransManager
 {
     public partial class frmClientAdd : Form
     {
+        public static frmClientAdd mInst;
+
         Client client;
         Boolean bDirty = false;
 
@@ -18,6 +20,34 @@ namespace TransManager
         {
             InitializeComponent();
             client = new Client();
+        }
+
+        // Create a public static property that returns the state of the instance
+        public static frmClientAdd CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+
+        // Create a public static property that will create an instance of the form and return it
+        public static frmClientAdd CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmClientAdd();
+                return mInst;
+            }
+        }
+
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
+
         }
 
         private void LoadTitleCombo()

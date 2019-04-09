@@ -12,6 +12,8 @@ namespace TransManager
 {
     public partial class frmJobQueue : Form
     {
+        private static frmJobQueue mInst;
+
         Boolean bDirty = false;
         Drivers drivers = new Drivers();
         public enum LinkType { Client, Driver};
@@ -25,13 +27,39 @@ namespace TransManager
         frmDailyList frmDaily;
         private Notes collNotes;
 
-        public frmJobQueue()
+        private frmJobQueue()
         {
             InitializeComponent();
             
             Sizer.ResizeForm(this);
             scTreeView.Panel1Collapsed = false;
             scTreeView.Panel2Collapsed = true;
+
+        }
+        // Create a public static property that returns the state of the instance
+        public static frmJobQueue CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+        // Create a public static property that will create an instance of the form and return it
+        public static frmJobQueue CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmJobQueue();
+                return mInst;
+            }
+        }
+
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
 
         }
 
@@ -60,20 +88,27 @@ namespace TransManager
             jobs = new Jobs(Jobs.ContactView.Current);
             tvJobs.Nodes.Clear();
             int i = 0;
+            string sDateNode = "";
             btnJobList.Enabled = (jobs.Count > 0);
-            foreach (Job job in jobs.OrderBy(s => s.JobDate))
+            foreach (Job job in jobs.OrderBy(s => s.JobDate).ThenBy(t => t.JobID))
             {
                 DateTime dt;
 
                 dt = job.JobDate;
-                if (tvJobs.Nodes.Find(job.JobDate.ToShortDateString(), false).Count<TreeNode>() == 0)
+                sDateNode = job.JobDate.Month.ToString() + job.JobDate.Day.ToString(); 
+                if (tvJobs.Nodes.Find(sDateNode, false).Count<TreeNode>() == 0)
                 {
-                    tvJobs.Nodes.Add(job.JobDate.ToShortDateString(), job.JobDate.ToShortDateString(),6);
+                    tvJobs.Nodes.Add(sDateNode, job.JobDate.ToShortDateString(),6);
+                }
+                if (tvJobs.Nodes.Find(sDateNode+job.Status, true).Count<TreeNode>() == 0)
+                {
+                    tvJobs.Nodes[sDateNode].Nodes.Add(sDateNode+job.Status,job.Status);
                 }
                 //job.LoadJobContacts();
                 //TreeNode node = tvJobs.Nodes[job.JobDate.ToShortDateString()].Nodes.Add(job.JobID.ToString(), job.ClientName + Environment.NewLine + "-" + job.PendingStatus);
-                TreeNode node = tvJobs.Nodes[job.JobDate.ToShortDateString()].Nodes.Add(job.JobID.ToString(), "Client=" + job.ClientName + ", Status = " + job.Status);
+                TreeNode node = tvJobs.Nodes[sDateNode].Nodes[sDateNode+job.Status].Nodes.Add(job.JobID.ToString(), "Client=" + job.ClientName + ", Status = " + job.Status);
                 node.ForeColor = (job.StatusID != 5 && job.JobDate.AddDays(-1) < DateTime.Now ? Color.Red : Color.Black);
+                //node.BackColor = (job.StatusID == 0 ? Color.Yellow : Color.Transparent);
                 node.Parent.ForeColor = (node.Parent.ForeColor == Color.Red ? Color.Red : node.ForeColor);
                 node.ImageIndex = job.StatusID == 5 ? 1 : job.PriorityLevel;
                 i++;
@@ -89,18 +124,18 @@ namespace TransManager
         private void tvJobs_AfterSelect(object sender, TreeViewEventArgs e)
         {
             
-            if (tvJobs.SelectedNode.Level == 0) {
+            if (tvJobs.SelectedNode.Level < 2) {
                 splitContainer2.Visible = false;
                 txtJobStatus.Text = string.Empty;
                 btnPendingAction1.Enabled = btnPendingAction2.Enabled = false;
                 return;
             }
             btnPendingAction1.Enabled = btnPendingAction2.Enabled = true;
-            job = new Job(Convert.ToInt32((tvJobs.SelectedNode.Level == 1) ? tvJobs.SelectedNode.Name : tvJobs.SelectedNode.Parent.Name));
+            job = new Job(Convert.ToInt32((tvJobs.SelectedNode.Level == 2) ? tvJobs.SelectedNode.Name : tvJobs.SelectedNode.Parent.Name));
             client = new Client(job.ClientID, false);
             client.LoadAttributes();
 
-            if (tvJobs.SelectedNode.Level == 1)
+            if (tvJobs.SelectedNode.Level == 2)
             {
                 LoadJobDetails(job);
                 tvJobs.SelectedNode.ExpandAll();
@@ -108,7 +143,7 @@ namespace TransManager
 
             splitContainer2.Visible = false;   
             
-            if (tvJobs.SelectedNode.Level == 2) {
+            if (tvJobs.SelectedNode.Level == 3) {
                 
                 job.LoadJobContacts();
                 JobContact jobcontact = job.jobcontacts.Where(j => j.ContactID == Convert.ToInt32(tvJobs.SelectedNode.Name)).First<JobContact>();
@@ -170,7 +205,11 @@ namespace TransManager
                     lvi.ToolTipText = "Driver does not work on this day of week.";
 
                 }
-
+                if (dv.IsOnHoliday && lvi.ImageIndex==-1)
+                {
+                    lvi.ImageIndex = 18;
+                    lvi.ToolTipText = "Driver is currently on holiday";
+                }
                 if (!dv.IsWheelchairEnabled && (client.isWheelchair || job.DVCWheelchair))
                 {
                     lvi.ImageIndex = 1;
@@ -227,6 +266,7 @@ namespace TransManager
             rtbJobNotes.Text += " on " + jobcontact.PhoneUsed.ToString();
             rtbJobNotes.Text += Environment.NewLine + "Notes: ";
             rtbJobNotes.Text += jobcontact.Note;
+            
         }
 
         private void SetlvDrivers(bool showing) {
@@ -320,7 +360,11 @@ namespace TransManager
             }
             
             rtbJobNotes.Text = "Job entered by " + job.EnteredBy + " on "  + job.EnteredAt.ToShortDateString() + " at " + job.EnteredAt.ToShortTimeString() + Environment.NewLine + job.Notes;
-            
+            rtbJobNotes.Select(22, 500);
+            //rtbJobNotes.SelectionColor = Color.Red;
+            rtbJobNotes.SelectionBackColor = Color.Cyan;
+           
+
             splitContainer3.Panel1Collapsed = true;
             
             txtJobStatus.Text = job.Status;
@@ -330,7 +374,7 @@ namespace TransManager
         private void tvJobs_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             bDirty = false;
-            if (e.Node.Level == 1) {
+            if (e.Node.Level == 2) {
                 e.Node.Nodes.Clear();
                 Job job = new Job(Convert.ToInt32(e.Node.Name));
                 txtJobID.Text = job.JobID.ToString();
@@ -1336,7 +1380,7 @@ namespace TransManager
                     rtbOpInstructions.Text = "Select Job from [Choose Job] panel.";
                     break;
                 case 1:
-                    rtbOpInstructions.Text = "Choose driver from list.  Drivers marked with locked symbol are not available - click to see reason." + Environment.NewLine + "Drivers with L next to name do local drives only." + Environment.NewLine + "Drivers with a red cross have expired Insurance or Driver Licence";
+                    rtbOpInstructions.Text = "Choose driver from list.  Drivers marked with locked symbol are not available - click to see reason." + Environment.NewLine + "Drivers with L next to name do local drives only." + Environment.NewLine + "Drivers with a red cross have expired Insurance or Driver Licence" + Environment.NewLine + "Drives with a suitcase are currently on Holiday so should not be contacted.";
                     //gbClientDetails.Visible = true;
                     break;
                 case 6:

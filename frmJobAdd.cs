@@ -12,8 +12,11 @@ using System.Configuration;
 
 namespace TransManager
 {
+    
     public partial class frmJobAdd : Form
     {
+        private static frmJobAdd mInst;
+
         Boolean blnLoading = true;
         Boolean bDirty = false;
         Combo objCombo = new Combo();
@@ -27,10 +30,39 @@ namespace TransManager
         Drivers collDrivers = new Drivers(ConfigurationManager.ConnectionStrings["TransManager"].ToString());
 
 
-        public frmJobAdd()
+        private frmJobAdd()
         {
             InitializeComponent();
         }
+
+        // Create a public static property that returns the state of the instance
+        public static frmJobAdd CheckInst
+        {
+            get
+            {
+                return mInst;
+            }
+        }
+
+        // Create a public static property that will create an instance of the form and return it
+        public static frmJobAdd CreateInst
+        {
+            get
+            {
+                if (mInst == null)
+                    mInst = new frmJobAdd();
+                return mInst;
+            }
+        }
+
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
+            
+        }
+
 
         private void frmJobAdd_Load(object sender, EventArgs e)
         {
@@ -345,9 +377,7 @@ namespace TransManager
                 job.joblegs[1].PickUpDestinationID = Convert.ToInt32(cboLeg2From.SelectedValue) == -1 ? 0 : Convert.ToInt32(cboLeg2From.SelectedValue);
                 job.joblegs[1].DropDestinationID = Convert.ToInt32(cboLeg2To.SelectedValue) == -1 ? 0 : Convert.ToInt32(cboLeg2To.SelectedValue);
             }
-
             
-
             string msg = job.AddJob();
             MessageBox.Show(msg, msgBoxTitle);
             if (msg == "Successfully added job")
@@ -463,7 +493,7 @@ namespace TransManager
             if (bDirty)
             {
                 DialogResult dialogResult = MessageBox.Show("Data has not been saved." + Environment.NewLine + "Return to job entry form?", "Job Additions", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (dialogResult == DialogResult.No)
                 {
                     e.Cancel = true;
                     this.Activate();

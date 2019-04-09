@@ -39,6 +39,7 @@ namespace TransManager
         private bool _isabsent = false;
         private bool _hasdeclined = false;
         private bool _isclientexcluded = false;
+        private bool _isonholiday = false;
         private int _otherjob;
 
         public Dictionary<int, bool> Sessions = new Dictionary<int, bool>();
@@ -643,6 +644,10 @@ namespace TransManager
         public int JobSessionCount
         {   get { return _daysessioncount;  }
             set { _daysessioncount = value; }
+        }
+        public bool IsOnHoliday {
+            get { return _isonholiday; }
+            set { _isonholiday = value; }
         }
 
 

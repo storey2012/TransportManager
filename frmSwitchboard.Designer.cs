@@ -190,7 +190,6 @@
             this.rtbJobSummary.Size = new System.Drawing.Size(223, 292);
             this.rtbJobSummary.TabIndex = 8;
             this.rtbJobSummary.Text = "";
-            this.rtbJobSummary.TextChanged += new System.EventHandler(this.rtbJobSummary_TextChanged);
             // 
             // tabPage1
             // 
@@ -632,6 +631,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
             this.label1.Location = new System.Drawing.Point(535, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 17);
