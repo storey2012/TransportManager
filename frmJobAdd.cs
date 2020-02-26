@@ -83,7 +83,10 @@ namespace TransManager
             dtpJobDate.Value = DateTime.Now.AddDays(-1);
             blnLoading = false;
             bDirty = false;
-               
+            this.cboLeg1To.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cboLeg1From.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cboLeg2To.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cboLeg2From.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void ResetForm() {
@@ -165,11 +168,14 @@ namespace TransManager
             SetJourney();
 
         }
-
         private void SetJourney() {
+            SetJourney(false);
+        }
+        private void SetJourney(bool synch=false) {
             if (!blnLoading)
             {
-                if (this.radReturn.Checked && cboLeg2From.SelectedIndex < 1)
+                //if (this.radReturn.Checked && cboLeg2From.SelectedIndex < 1)
+                if (this.radReturn.Checked && synch)
                 {
                     this.cboLeg2To.SelectedIndex = this.cboLeg1From.SelectedIndex;
                     this.cboLeg2From.SelectedIndex = this.cboLeg1To.SelectedIndex;
@@ -196,7 +202,7 @@ namespace TransManager
         {
             SetDestinationAddress(cboLeg1To, rtbLeg1To);
             ValidateDestinations(cboLeg1From, cboLeg1To);
-            SetJourney();
+            SetJourney(true);
         }
          
 
@@ -423,7 +429,7 @@ namespace TransManager
         {
             SetDestinationAddress(cboLeg1From, rtbLeg1From);
             ValidateDestinations(cboLeg1From, cboLeg1To);
-            SetJourney();
+            SetJourney(true);
         }
 
         private void SetDestinationAddress(ComboBox cboBox, RichTextBox rtbBox) {
@@ -493,7 +499,7 @@ namespace TransManager
             if (bDirty)
             {
                 DialogResult dialogResult = MessageBox.Show("Data has not been saved." + Environment.NewLine + "Return to job entry form?", "Job Additions", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.No)
+                if (dialogResult == DialogResult.Yes)
                 {
                     e.Cancel = true;
                     this.Activate();
