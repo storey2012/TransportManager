@@ -45,6 +45,13 @@ namespace TransManager
             }
         }
 
+        // We also need to override the OnClose event so we can set the Instance to null
+        protected override void OnClosed(EventArgs e)
+        {
+            mInst = null;
+            base.OnClosed(e);   // Always call the base of OnClose !
+
+        }
 
         private void frmJobEdit_Load(object sender, EventArgs e)
         {
@@ -61,7 +68,11 @@ namespace TransManager
             objCombo.PopulateCombo(this.cboPickUp2Hour, Combo.ComboName.Hours, "<HH>");
             objCombo.PopulateCombo(this.cboPickUp2Minute, Combo.ComboName.Minutes, "<MM>");
             objCombo.PopulateCombo(this.cboJobs, Combo.ComboName.Jobs, "<Select Job>");
-                
+            this.cboLeg1To.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cboLeg1From.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cboLeg2To.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cboLeg2From.DropDownStyle = ComboBoxStyle.DropDownList;
+
             this.rad2Leg.Checked = true;
        }
 
@@ -437,6 +448,20 @@ namespace TransManager
         private void cboDriverLeg1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //ValidateAll();
+        }
+
+        private void frmJobEdit_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //if (bDirty)
+            //{
+            //    DialogResult dialogResult = MessageBox.Show("Data has not been saved." + Environment.NewLine + "Return to job entry form?", "Job Additions", MessageBoxButtons.YesNo);
+            //    if (dialogResult == DialogResult.Yes)
+            //    {
+            //        e.Cancel = true;
+            //        this.Activate();
+            //        this.Focus();
+            //    }
+            //}
         }
     }
 
